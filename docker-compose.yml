@@ -5,7 +5,7 @@ services:
     build: .
     container_name: discord-mp3-bot
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
     volumes:
       - ./downloads:/usr/src/app/downloads
