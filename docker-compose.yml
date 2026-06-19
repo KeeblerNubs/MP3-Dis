@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  discord-mp3-bot:
+    build: .
+    container_name: discord-mp3-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./downloads:/usr/src/app/downloads
