@@ -1,4 +1,6 @@
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
+require('dotenv').config();
+
+const { Client, GatewayIntentBits } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
 const fs = require('fs');
 const path = require('path');
@@ -14,6 +16,18 @@ const client = new Client({
 });
 
 const PREFIX = '!play';
+const PLACEHOLDER_TOKENS = new Set(['', 'YOUR_BOT_TOKEN_HERE']);
+
+function getDiscordToken() {
+    const token = (process.env.DISCORD_TOKEN || '').trim();
+
+    if (PLACEHOLDER_TOKENS.has(token)) {
+        console.error('Missing or invalid DISCORD_TOKEN. Set a real bot token in your .env file before starting the bot.');
+        process.exit(1);
+    }
+
+    return token;
+}
 
 client.once('ready', () => {
     console.log(`Bot is online as ${client.user.tag}!`);
@@ -86,5 +100,4 @@ function playAudio(voiceChannel, filePath, message) {
     });
 }
 
-// Replace this with your actual Bot Token
-client.login('YOUR_BOT_TOKEN_HERE');
+client.login(getDiscordToken());
